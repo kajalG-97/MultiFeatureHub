@@ -3,7 +3,6 @@ import Box from "@mui/material/Box";
 import Tabs from "./Tabs";
 import Tab from "./Tab";
 import TabPanel from "./TabPanel";
-// import { Tab } from "@mui/material";
 
 function a11yProps(index) {
   return {
