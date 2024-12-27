@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Fruits Table</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 20px;
+            }
+
+            table {
+                width: 50%;
+                border-collapse: collapse;
+                margin: 20px 0;
+            }
+
+            th,
+            td {
+                border: 1px solid #ddd;
+                padding: 8px;
+                text-align: center;
+            }
+
+            th {
+                background-color: #f4a261;
+                color: white;
+            }
+
+            button {
+                padding: 5px 10px;
+                margin: 5px;
+                cursor: pointer;
+                border: none;
+                border-radius: 4px;
+            }
+
+            .btn-edit {
+                background-color: #2a9d8f;
+                color: white;
+            }
+
+            .btn-delete {
+                background-color: #e63946;
+                color: white;
+            }
+        </style>
+    </head>
+
+    <body>
+        <h1>Fruits Table</h1>
+        <table id="fruitsTable">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Fruit</th>
+                    <th>Quantity</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Apple</td>
+                    <td>10</td>
+                    <td>
+                        <button class="btn-edit" onclick="editRow(this)">Edit</button>
+                        <button class="btn-delete" onclick="deleteRow(this)">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <form id="fruitForm">
+            <input type="text" id="fruitName" placeholder="Fruit Name" required>
+            <input type="number" id="fruitQuantity" placeholder="Quantity" required>
+            <button type="button" onclick="addRow()">Add</button>
+        </form>
+
+        <script>
+            function addRow() {
+                const table = document.getElementById('fruitsTable').getElementsByTagName('tbody')[0];
+                const fruitName = document.getElementById('fruitName').value;
+                const fruitQuantity = document.getElementById('fruitQuantity').value;
+
+                if (fruitName && fruitQuantity) {
+                    const newRow = table.insertRow();
+                    const rowIndex = table.rows.length;
+
+                    newRow.innerHTML = `
+                    <td>${rowIndex}</td>
+                    <td>${fruitName}</td>
+                    <td>${fruitQuantity}</td>
+                    <td>
+                        <button class="btn-edit" onclick="editRow(this)">Edit</button>
+                        <button class="btn-delete" onclick="deleteRow(this)">Delete</button>
+                    </td>
+                `;
+                    document.getElementById('fruitForm').reset();
+                } else {
+                    alert("Please fill out all fields.");
+                }
+            }
+
+            function deleteRow(button) {
+                const row = button.parentElement.parentElement;
+                row.parentElement.removeChild(row);
+                updateRowIndices();
+            }
+
+            function editRow(button) {
+                const row = button.parentElement.parentElement;
+                const fruitName = row.cells[1].innerText;
+                const fruitQuantity = row.cells[2].innerText;
+
+                document.getElementById('fruitName').value = fruitName;
+                document.getElementById('fruitQuantity').value = fruitQuantity;
+
+                deleteRow(button);
+            }
+
+            function updateRowIndices() {
+                const rows = document.getElementById('fruitsTable').getElementsByTagName('tbody')[0].rows;
+                for (let i = 0; i < rows.length; i++) {
+                    rows[i].cells[0].innerText = i + 1;
+                }
+            }
+        </script>
+    </body>
+
+</html>
